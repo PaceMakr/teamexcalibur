@@ -1,6 +1,10 @@
 Company Name: LittleBytes
 Basic overview of the Sandwich Business
 
+Due Date:
+(3/12/2018) - AS of 2/26/2018, A presentaton including the groups understanding of the requirements and the beginnings of the potential workflow -
+
+
 Number of shops: 10
 Location: Manhattan, New York
 
