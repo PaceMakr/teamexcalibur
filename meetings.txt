@@ -1,3 +1,4 @@
+Company Name: LittleBytes
 Basic overview of the Sandwich Business
 
 Number of shops: 10
@@ -9,23 +10,26 @@ Business Client base:
 60%: Catering for large companies or organizations (Business to Business)
 40%: Walk in Customers (retail)
 
-What is wanted out of the software:
+What is wanted out of the software (REQUIREMENTS):
 -	Daily reports (inventory, customer rundown (business vs retail ; product trends ; etc)
 -	Inventory updating/scanning (accepting deliveries/ acknowledging outgoing shipments)
+- Weekly Reports
+
 Database:
 -	1 main database
-o	10 tables represent each store
-♣	mark item as perishable or not
-o	Report table
-♣	Keeps everything organized
-o	Incoming and outgoing shipments
-o	Employees update inventory via tablets -> scanning each item in or out
-o	Generate 2 reports
-♣	Daily (wanted in the beginning)
-♣	Weekly (can come later)
-Who updates:
--	Employees via “scanning”
--	Boss when ordering
+  o	10 tables represent each store
+    ♣ mark item as perishable or not
+  o	Report table
+    ♣	Keeps everything organized
+  o	Incoming and outgoing shipments
+  o	Employees update inventory via tablets -> scanning each item in or out
+  o	Generate 2 reports
+    ♣	Daily (wanted in the beginning)
+    ♣	Weekly (can come later)
+
+Users:
+-	Employees update inventory via “scanning” on tablets (intake/outgoing)
+-	Boss
 
 Supplies:
 
