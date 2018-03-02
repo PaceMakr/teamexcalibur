@@ -11,7 +11,7 @@
 - clone this repository:
 	- create a folder where you want to save this project
 	- cd into the folder from the command line
-	- run `git clone THIS_PAGE_URL` **replace THI_PAGE_URL witht the url for this page**
+	- run `git clone -b prototype https://github.com/PaceMakr/teamexcalibur`
 - open a terminal and cd into the projects repository and run `pip install -r requirements.txt`
 - cd into school_app/
 - finally run `python3 manage.py runserver`
