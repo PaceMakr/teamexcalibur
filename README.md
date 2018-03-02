@@ -17,8 +17,10 @@
 - run `python manage.py migrate`
 - create an admin account:
 	- run `python manage.py createsuperuser`
-	- enter a `admin`
+	- enter `admin`
 	- any email
 	- the password `littlebytes`
 - run `python manage.py runserver`
 - open a browser and go to [localhost:8000/admin](localhost:8000/admin)
+
+Finally log in with `admin` and `littlebytes` as the credentials
