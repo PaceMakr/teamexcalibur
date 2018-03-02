@@ -21,6 +21,6 @@
 	- any email
 	- the password `littlebytes`
 - run `python manage.py runserver`
-- open a browser and go to [localhost:8000/admin](localhost:8000/admin)
+- open a browser and go to [localhost:8000/admin](http://localhost:8000/admin)
 
 Finally log in with `admin` and `littlebytes` as the credentials
