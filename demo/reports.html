@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>LittleBytes Reports</title>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+    <section>
+      <!--for demo wrap-->
+        <div class="btn-navigate-group">
+                <button>
+                    <a href="http://localhost:8000/login.html" class="navigation-link-btn">
+                        Logout
+                    </a>
+                </button>
+                <button>
+                    <a href="http://localhost:8000/home.html" class="navigation-link-btn">
+                        Inventory
+                    </a>
+                </button>
+                <button>
+                    <a href="http://localhost:8000/update.html" class="navigation-link-btn">
+                        Update
+                    </a>
+                </button>
+        </div>
+        <h1>LittleBytes Reports
+        </h1>
+        <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align w3-hover-light-grey">
+            <h2>
+                 &gt Daily Reports
+            </h2>
+        </button>
+            <div id="Demo1" class="w3-hide w3-container">
+                <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="#">
+                    00:00:00 Month/Date/Year
+                </a>
+                <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="#">
+                    00:00:00 Month/Date/Year
+                </a>
+                <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="#">
+                    00:00:00 Month/Date/Year
+                </a>
+            </div>
+        <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align w3-hover-light-grey">
+            <h2>
+                &gt Weekly Reports 
+            </h2>
+        </button>
+            <div id="Demo2" class="w3-hide w3-container">
+                <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="#">
+                    00:00:00 Month/Date/Year
+                </a>
+                <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="#">
+                    00:00:00 Month/Date/Year
+                </a>
+                <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="#">
+                    00:00:00 Month/Date/Year
+                </a>
+            </div>
+         <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-left-align w3-hover-light-grey">
+            <h2>
+                &gt Sales Reports 
+            </h2>
+        </button>
+            <div id="Demo3" class="w3-hide w3-container">
+                <a class="w3-button w3-block w3-left-align" href="#">00:00:00 Month/Date/Year</a>
+                <a class="w3-button w3-block w3-left-align" href="#">00:00:00 Month/Date/Year</a>
+                <a class="w3-button w3-block w3-left-align" href="#">00:00:00 Month/Date/Year</a>
+            </div>
+        </div>
+    </section>
+    <script>
+    function myFunction(id) {
+        var x = document.getElementById(id);
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else { 
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
+    </script>
+
+</body>
+</html>
+
