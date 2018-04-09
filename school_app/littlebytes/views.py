@@ -87,7 +87,6 @@ def add_sale(request):
                                           store=Store.objects.get(id=store_id),
                                           transaction_type=request.POST.get('type', 'w'),
                                           gross=sandwich_count*3.25)
-                items = Inventory.objects.all()
                 updatedItems = []
                 for i in ingredients:
                     if i['store'] and i['store']!=transaction.store.id:
@@ -95,7 +94,7 @@ def add_sale(request):
                     if i['index']==None:
                         context['error'] = 'Cannot find "{}" in the store inventory.'.format(i['name'])
                         break
-                    item = items[i['index']-1]
+                    item = Inventory.objects.get(pk=i['index'])
                     amount = i['amount']
                     if item.stock<amount:
                         context['error'] = 'Not enough "{}" in  in Store "{}".'.format(i['name'], transaction.store)
@@ -162,11 +161,13 @@ def reports(request):
             for b in box_stats:
                 b['count'] = boxes_count[b['box']]
             total_gross = sales.aggregate(total_gross=Sum('gross'))
+            #need to calculate total sandwich sold and total cost
             store = {'store': s,
                      'ingredients': ingredients,
                      'box_stats': box_stats,
                      'total_gross': total_gross['total_gross'],
-                     'total_tax': total_gross['total_gross']*s.tax/100,
+                     #'total_cost':,
+                     #'total_count':,
                      }
             storeReports.append(store)
         context['reports'] = storeReports

@@ -40,122 +40,122 @@
     </h2>
     {% if reports %}
         <h2 class="w3-container">
-          Reporting Period: {{start_date|date:"M-d-Y"}} to {{end_date|date:"M-d-Y"}}
+            Reporting Period: {{start_date|date:"M-d-Y"}} to {{end_date|date:"M-d-Y"}}
         </h2>
         {% for report in reports %}
-        <hr />
-        <h2 style="color:steelblue;">Store {{report.store}}</h2>
+            <hr />
+            <h2 style="color:steelblue;">Store {{report.store}}</h2>
 
-        <h3>Sale Summary</h3>
-        <div class="tbl-header">
-          <table cellpadding="0" cellspacing="0" border="0">
-            <thead>
-              <tr>
-                <th>Location</th>
-                <th>Total Gross</th>
-                <th>Tax Rate</th>
-                <th>Total Tax</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-        <div>
-          <table cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-              <tr>
-                <td>{{ report.store.location }}</td>
-                <td>{{ report.total_gross }}</td>
-                <td>{{ report.store.tax }}</td>
-                <td>{{ report.total_tax }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <br />
-                
-        <h3>Box Sales</h3>
-        <div class="tbl-header">
-          <table cellpadding="0" cellspacing="0" border="0">
-            <thead>
-              <tr>
-                <th>Barcode</th>
-                <th>Total Sale</th>
-                <th>Unit Cost</th>
-                <th>Average Gross</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-        <div>
-          <table cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-              {% for item in report.box_stats %}
-              <tr>
-                <td>{{ item.box }}</td>
-                <td>{{ item.count }}</td>
-                <td>{{ item.cost }}</td>
-                <td>{{ item.avg_gross }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        <br />
-                
-        <h3>Inventory Depletion</h3>
-        <div class="tbl-header">
-          <table cellpadding="0" cellspacing="0" border="0">
-            <thead>
-              <tr>
-                <th>Ingredient</th>
-                <th>Unit</th>
-                <th>Dispensed</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-        <div class="tbl-content">
-          <table cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-              {% for item in report.ingredients %}
-              <tr>
-                <td>{{ item.0 }}</td>
-                <td>{{ item.1 }}</td>
-                <td>{{ item.2 }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        <br />
+            <h3>Sale Summary</h3>
+            <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                    <tr>
+                        <th>Total Sandwich Sold</th>
+                        <th>Total Cost</th>
+                        <th>Total Gross</th>
+                        <th>Tax Rate</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div>
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tbody>
+                    <tr>
+                        <td>{{ report.total_count }}</td>
+                         <td>{{ report.total_cost }}</td>
+                        <td>{{ report.total_gross }}</td>
+                        <td>{{ report.store.tax }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+
+            <h3>Box Sales</h3>
+            <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                    <tr>
+                        <th>Barcode</th>
+                        <th>Total Sale</th>
+                        <th>Unit Cost</th>
+                        <th>Average Gross</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div>
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tbody>
+                    {% for item in report.box_stats %}
+                        <tr>
+                            <td>{{ item.box }}</td>
+                            <td>{{ item.count }}</td>
+                            <td>{{ item.cost }}</td>
+                            <td>{{ item.avg_gross }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br />
+
+            <h3>Inventory Depletion</h3>
+            <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                    <tr>
+                        <th>Ingredient</th>
+                        <th>Unit</th>
+                        <th>Dispensed</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tbody>
+                    {% for item in report.ingredients %}
+                        <tr>
+                            <td>{{ item.0 }}</td>
+                            <td>{{ item.1 }}</td>
+                            <td>{{ item.2 }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br />
 
         {% endfor %}
     {% else %}
-    <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align w3-hover-light-grey">
-        <h2>
-            &gt Daily Reports
-        </h2>
-    </button>
-    <div id="Demo1" class="w3-show w3-container">
-      {% for item in daily %}
-      <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="/reports/?start={{item|date:'Y-m-d'}}">
-        {{item|date:"M-d-Y"}}
-      </a>
-      {% endfor %}
-    </div>
-    <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align w3-hover-light-grey">
-        <h2>
-            &gt Weekly Reports
-        </h2>
-    </button>
-    <div id="Demo2" class="w3-show w3-container">
-      {% for item in weekly %}
-      <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="/reports/?start={{item.0|date:'Y-m-d'}}&end={{item.1|date:'Y-m-d'}}">
-        {{ item.0|date:"M-d-Y" }} &rarr; {{ item.1|date:"M-d-Y" }}
-      </a>
-      {% endfor %}
-    </div>
-    </div>
+        <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align w3-hover-light-grey">
+            <h2>
+                &gt Daily Reports
+            </h2>
+        </button>
+        <div id="Demo1" class="w3-show w3-container">
+            {% for item in daily %}
+                <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="/reports/?start={{item|date:'Y-m-d'}}">
+                    {{item|date:"M-d-Y"}}
+                </a>
+            {% endfor %}
+        </div>
+        <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align w3-hover-light-grey">
+            <h2>
+                &gt Weekly Reports
+            </h2>
+        </button>
+        <div id="Demo2" class="w3-show w3-container">
+            {% for item in weekly %}
+                <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="/reports/?start={{item.0|date:'Y-m-d'}}&end={{item.1|date:'Y-m-d'}}">
+                    {{ item.0|date:"M-d-Y" }} &rarr; {{ item.1|date:"M-d-Y" }}
+                </a>
+            {% endfor %}
+        </div>
+        </div>
     {% endif %}
 </section>
 <script>
