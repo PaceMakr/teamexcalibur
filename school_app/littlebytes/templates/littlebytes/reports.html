@@ -1,0 +1,172 @@
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <title>LittleBytes Reports</title>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <!--===============================================================================================-->
+</head>
+<body>
+<section>
+    <div class="btn-navigate-group">
+        <button>
+            <a href="{% url 'logout' %}" class="navigation-link-btn" >
+                LOGOUT
+            </a>
+        </button>
+        <button>
+            <a href="{% url 'inventory' %}" class="navigation-link-btn">
+                Inventory
+            </a>
+        </button>
+        <button>
+            <a href="{% url 'sales' %}" class="navigation-link-btn">
+                Sales
+            </a>
+        </button>
+    </div>
+    <h1>LittleBytes Reports
+    </h1>
+    <h2>
+        <div class="container-icons">
+            {% now "H:i:s m/d/y" %}
+            <button id="btnZoom" tabindex="0" class="fa fa-print"></button>
+        </div>
+    </h2>
+    {% if reports %}
+        <h2 class="w3-container">
+          Reporting Period: {{start_date|date:"M-d-Y"}} to {{end_date|date:"M-d-Y"}}
+        </h2>
+        {% for report in reports %}
+        <hr />
+        <h2 style="color:steelblue;">Store {{report.store}}</h2>
+
+        <h3>Sale Summary</h3>
+        <div class="tbl-header">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <thead>
+              <tr>
+                <th>Location</th>
+                <th>Total Gross</th>
+                <th>Tax Rate</th>
+                <th>Total Tax</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div>
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              <tr>
+                <td>{{ report.store.location }}</td>
+                <td>{{ report.total_gross }}</td>
+                <td>{{ report.store.tax }}</td>
+                <td>{{ report.total_tax }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br />
+                
+        <h3>Box Sales</h3>
+        <div class="tbl-header">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <thead>
+              <tr>
+                <th>Barcode</th>
+                <th>Total Sale</th>
+                <th>Unit Cost</th>
+                <th>Average Gross</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div>
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              {% for item in report.box_stats %}
+              <tr>
+                <td>{{ item.box }}</td>
+                <td>{{ item.count }}</td>
+                <td>{{ item.cost }}</td>
+                <td>{{ item.avg_gross }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <br />
+                
+        <h3>Inventory Depletion</h3>
+        <div class="tbl-header">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <thead>
+              <tr>
+                <th>Ingredient</th>
+                <th>Unit</th>
+                <th>Dispensed</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="tbl-content">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              {% for item in report.ingredients %}
+              <tr>
+                <td>{{ item.0 }}</td>
+                <td>{{ item.1 }}</td>
+                <td>{{ item.2 }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <br />
+
+        {% endfor %}
+    {% else %}
+    <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align w3-hover-light-grey">
+        <h2>
+            &gt Daily Reports
+        </h2>
+    </button>
+    <div id="Demo1" class="w3-show w3-container">
+      {% for item in daily %}
+      <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="/reports/?start={{item|date:'Y-m-d'}}">
+        {{item|date:"M-d-Y"}}
+      </a>
+      {% endfor %}
+    </div>
+    <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align w3-hover-light-grey">
+        <h2>
+            &gt Weekly Reports
+        </h2>
+    </button>
+    <div id="Demo2" class="w3-show w3-container">
+      {% for item in weekly %}
+      <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="/reports/?start={{item.0|date:'Y-m-d'}}&end={{item.1|date:'Y-m-d'}}">
+        {{ item.0|date:"M-d-Y" }} &rarr; {{ item.1|date:"M-d-Y" }}
+      </a>
+      {% endfor %}
+    </div>
+    </div>
+    {% endif %}
+</section>
+<script>
+    function myFunction(id) {
+        var x = document.getElementById(id);
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
+</script>
+</body>
+</html>

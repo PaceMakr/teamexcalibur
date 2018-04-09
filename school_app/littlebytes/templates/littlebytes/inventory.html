@@ -1,0 +1,118 @@
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <title>Inventory</title>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <!--===============================================================================================-->
+</head>
+<body>
+<section>
+    <!--for demo wrap-->
+    {% if user.is_authenticated %}
+        <div class="btn-navigate-group">
+            <button>
+                <a href="{% url 'logout' %}" class="navigation-link-btn" >
+                LOGOUT
+                </a>
+            </button>
+            <button>
+                <a href="{% url 'reports' %}" class="navigation-link-btn">
+                    Reports
+                </a>
+            </button>
+            <button>
+                <a href="{% url 'sales' %}" class="navigation-link-btn">
+                    Sales
+                </a>
+            </button>
+        </div>
+    {% else %}
+        <a href="{% url 'login' %}" class="navigation-link-btn">Login</a>
+    {% endif %}
+    <h1>LittleBytes Inventory</h1>
+    <h2>
+      <div class="w3-dropdown-hover w3-white">
+        All Items
+        <i class="fa fa-caret-down"></i>
+        <div id="dropdown" class="w3-dropdown-content w3-bar-block w3-border">
+          <a class="w3-bar-item w3-button w3-hover-light-grey" href="?stock=low">
+            Low Stock Items
+          </a>
+          <a class="w3-bar-item w3-button w3-hover-light-grey" href="?stock=all">
+            All Stock Items
+          </a>
+        </div>
+      </div>
+      <div style="padding:20px;display:inline;"></div>
+      <div class="w3-dropdown-hover w3-white">
+        Sort By
+        <i class="fa fa-caret-down"></i>
+        <div id="dropdown" class="w3-dropdown-content w3-bar-block w3-border">
+          <a class="w3-bar-item w3-button w3-hover-light-grey" href="?sort=item">
+            Item Name
+          </a>
+          <a class="w3-bar-item w3-button w3-hover-light-grey" href="?sort=store">
+            Store
+          </a>
+          <a class="w3-bar-item w3-button w3-hover-light-grey" href="?sort=expiration">
+            Expiration Date
+          </a>
+        </div>
+      </div>
+      <div class="container-icons">
+        {% now "H:i:s m/d/y" %}
+        <a id="btnZoom" class="fa fa-plus-square" href="/admin/littlebytes/inventory/add/"></a>
+      </div>
+    </h2>
+    <div class="tbl-header">
+        <table cellpadding="0" cellspacing="0" border="0">
+            <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Store</th>
+                <th>Unit</th>
+                <th>Unit Price</th>
+                <th>Date Expire</th>
+                <th>Date Added</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="tbl-content">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+          {% for item in query_results %}
+          <tr>
+            <td>{{ item.name.name }}</td>
+            <td>{{ item.stock }}</td>
+            <td>{{ item.store }}</td>
+            <td>{{ item.name.unit }}</td>
+            <td>{{ item.cost_per_unit }}</td>
+            <td>{{ item.date_exp }}</td>
+            <td>{{ item.date_enter }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</section>
+<script>
+    {#for the scroll bar#}
+    $(window).on("load resize ", function() {
+        var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+        $('.tbl-header').css({'padding-right':scrollWidth});
+    }).resize();
+
+
+</script>
+</body>
+</html>

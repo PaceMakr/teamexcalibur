@@ -1,0 +1,53 @@
+{% load staticfiles %}
+
+<head>
+    <title>Login</title>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/util.css' %}">
+    <!--===============================================================================================-->
+</head>
+<body onload="reassign();">
+{% if form.errors %}
+    <div class="login-error-notification">Your username and password didn't match. Please try again.</div>
+{% endif %}
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-t-85 p-b-80">
+                <form class="login100-form validate-form">
+					<span class="login100-form-title p-b-70">
+						LittleBytes
+					</span>
+                    <div class="login100-form-credits">@teamexcalibur</div>
+                    <div class="wrap-input100 validate-input m-t-85 m-b-35">
+                        <div class="input-label">Username</div>
+                        {{ form.username }}
+                        <span class="focus-input100" data-placeholder=""></span>
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-70">
+                        <div class="input-label">Password</div>
+                        {{ form.password }}
+                        <span class="focus-input100" data-placeholder=""></span>
+                    </div>
+                    <div class="container-login100-form-btn login100-form-btn validate-input m-b-30">
+                        <input class="navigation-link-btn" type="submit" value="login"/>
+                        <input type="hidden" name="next" vaxlue="{{ next }}" />
+                    </div>
+                    <p>
+                        <a href="{% url 'password_reset' %}" class="login100-form-credits">Forgot your password?</a>
+                    </p>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    function reassign() {
+        document.getElementById("id_username").className = "input100";
+        document.getElementById("id_password").className = "input100";
+    }
+</script>
+</body>
