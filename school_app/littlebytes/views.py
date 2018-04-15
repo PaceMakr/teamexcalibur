@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 
 # Create your views here.
 
+#get 2 last digit store ID from username
 def get_store_id_from_username(username):
     if username.startswith('LittleBytes'):
         store_id = username[11:]
@@ -18,15 +19,16 @@ def get_store_id_from_username(username):
 @login_required
 def inventory(request):
     store_id = get_store_id_from_username(request.user.username)
-    if store_id:
+    if store_id: #if there's store ID return filtered inventory of that store only
         query_results = Inventory.objects.filter(store__id=store_id)
-    else:
+    else: #else return all the inventory
         query_results = Inventory.objects.all()
-        
-    low_stock = request.GET.get('stock', 'all')=='low'
-    if low_stock:
-        query_results = query_results.filter(stock__lt=5)
 
+    low_stock = request.GET.get('stock', 'all')=='low'
+    if low_stock: # return filtered inventory of items with stock less than 10
+        query_results = query_results.filter(stock__lt=10)
+
+    # sort items by name, store, exp date
     order_by = request.GET.get('sort', 'item')
     map_to_field = {'item': 'name', 'store': 'store', 'expiration': 'date_exp'}
     order_by = map_to_field.get(order_by, 'name')
@@ -37,22 +39,26 @@ def inventory(request):
 @login_required
 def sales(request):
     store_id = get_store_id_from_username(request.user.username)
-    if store_id:
+    if store_id: #if there's store ID return transactions of that store only
         query_results = Transaction.objects.filter(store__id=store_id)
-    else:
+    else: # return all transactions
         query_results = Transaction.objects.all()
 
+    #sort transaction by store, date
     order_by = request.GET.get('sort', 'store')
     map_to_field = {'store': 'store', 'date': 'date'}
     order_by = map_to_field.get(order_by, 'store')
     query_results = query_results.order_by(order_by)
 
-    # Get all ingredients and cost
+    # Get all ingredients and cost for a transaction
     from django.db.models import Sum, F, DecimalField
     cost_per_unit = 'box__boxcontents__sandwich__ingredients__inventory__cost_per_unit'
     ingredient_amount = 'box__boxcontents__sandwich__ingredients__sandwichrecipe__ingredient_amount'
-    query_results = query_results.annotate(cost=Sum(F(cost_per_unit)*F(ingredient_amount),
-                                                    output_field=DecimalField(decimal_places=2)))
+
+    query_results = query_results.annotate(
+        cost=Sum(F(cost_per_unit)*F(ingredient_amount),
+        output_field=DecimalField(decimal_places=2))
+    )
 
     return render(request, 'littlebytes/sales.html', {'query_results': query_results})
 
@@ -62,20 +68,20 @@ def add_sale(request):
     authorized_store_id = get_store_id_from_username(request.user.username)
     confirm = 'confirm' in request.POST
     context = {'error': ''}
-    if not confirm:
-        context['stores'] = (Store.objects.filter(id=authorized_store_id)
+    if not confirm: #if no add request
+        context['stores'] = (Store.objects.filter(id=authorized_store_id) #different views for stores/CEO
                              if authorized_store_id else Store.objects.all())
         context['boxes'] = Box.objects.all()
-    else:
+    else: # if 'add transaction' is clicked
         store_id = request.POST.get('store', None)
-        if authorized_store_id and (authorized_store_id!=store_id):
+        if authorized_store_id and (authorized_store_id!=store_id): #check if user is permitted to add to this store
             context['error'] = 'Store ID {} is invalid'.format(store_id)
         else:
             barcode = request.POST.get('barcode', None)
             box = Box.objects.filter(barcode=barcode)
-            if len(box)!=1:
+            if len(box)!=1: #if cannot find the barcode
                 context['error'] = 'Barcode {} is invalid'.format(barcode)
-            else:
+            else: #check enough ingredients needed
                 inventory_index = 'contents__ingredients__inventory'
                 inventory_store = 'contents__ingredients__inventory__store'
                 ingredient = 'boxcontents__sandwich__ingredients__sandwichrecipe__ingredient'
@@ -88,10 +94,10 @@ def add_sale(request):
                                           transaction_type=request.POST.get('type', 'w'),
                                           gross=sandwich_count*3.25)
                 updatedItems = []
-                for i in ingredients:
+                for i in ingredients: #check if enough ingredients
                     if i['store'] and i['store']!=transaction.store.id:
                         continue
-                    if i['index']==None:
+                    if i['index']==None: #case no ingredient of such name in the inventory of the store
                         context['error'] = 'Cannot find "{}" in the store inventory.'.format(i['name'])
                         break
                     item = Inventory.objects.get(pk=i['index'])
@@ -100,9 +106,9 @@ def add_sale(request):
                         context['error'] = 'Not enough "{}" in  in Store "{}".'.format(i['name'], transaction.store)
                         break
                     item.stock -= amount
-                    updatedItems.append(item)
+                    updatedItems.append(item) #compute the new amount left
                 if context['error']=='':
-                    for item in updatedItems:
+                    for item in updatedItems: #add the transaction, update innventory with new amount left
                         item.save()
                     transaction.save()
                     context['error'] = 'Transaction "{}" added.' \
@@ -158,16 +164,20 @@ def reports(request):
                                                 output_field=DecimalField(decimal_places=2)))
             boxes_count = dict(sales.values_list('box') \
                                     .annotate(count=Count('box')))
+            total_cost = 0
             for b in box_stats:
                 b['count'] = boxes_count[b['box']]
+                total_cost += b['count']*b['cost']
             total_gross = sales.aggregate(total_gross=Sum('gross'))
-            #need to calculate total sandwich sold and total cost
+            if not total_gross['total_gross']:
+                total_gross["total_gross"] = 0
             store = {'store': s,
                      'ingredients': ingredients,
                      'box_stats': box_stats,
                      'total_gross': total_gross['total_gross'],
-                     #'total_cost':,
-                     #'total_count':,
+                     'total_cost': total_cost,
+                     'total_count':int(float(total_gross['total_gross'])/3.25),
+                     'total_transaction': len(box_stats),
                      }
             storeReports.append(store)
         context['reports'] = storeReports

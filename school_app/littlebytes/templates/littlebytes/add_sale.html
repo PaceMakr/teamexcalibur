@@ -46,7 +46,9 @@
             </tr>
             {% ifnotequal transaction.id "" %}
             <tr>
-                <th>Please check your
+                <th>You can
+                    <a href="{% url 'add_sale' %}" class="login100-form-credits">Add another transaction</a>
+                    or check your
                     <a href="{% url 'sales' %}" class="login100-form-credits">Sale Records</a>
                      to see changes.
                 </th>
