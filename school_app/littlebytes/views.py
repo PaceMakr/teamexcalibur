@@ -29,12 +29,57 @@ def inventory(request):
         query_results = query_results.filter(stock__lt=10)
 
     # sort items by name, store, exp date
-    order_by = request.GET.get('sort', 'item')
+    order_by = request.GET.get('sort', None)
     map_to_field = {'item': 'name', 'store': 'store', 'expiration': 'date_exp'}
-    order_by = map_to_field.get(order_by, 'name')
+    order_by = map_to_field.get(order_by, '-date_enter')
     query_results = query_results.order_by(order_by)
     
     return render(request, 'littlebytes/inventory.html', {'query_results': query_results})
+
+@login_required
+def inventory_update(request):
+    import datetime
+    from django.utils import timezone
+    from django.db.models import Min, Sum, F, DecimalField, Count
+    authorized_store_id = get_store_id_from_username(request.user.username)
+    confirm = 'confirm' in request.POST
+    context = {'error': ''}
+    if not confirm: #when haven't clicked 'Add Ingredients'
+        context['stores'] = (Store.objects.filter(id=authorized_store_id) #different views for stores/CEO
+                             if authorized_store_id else Store.objects.all())
+        context['ingredients'] = Ingredient.objects.all()
+    else: # when 'Add Ingredients' is clicked
+        store_id = request.POST.get('store', None)
+        # if user does not have permission to add to this store
+        if authorized_store_id and (authorized_store_id != store_id):
+            context['error'] = 'Store ID {} is invalid'.format(store_id)
+        # if user have permission to add
+        else:
+            #find in inventory item with name and store chosen
+            name = request.POST.get('ingredient', None)
+            items = Inventory.objects.filter(name=name, store=store_id)
+            #if cannot find such item
+            if len(items)!=1:
+                context['error'] = 'Integrident {} is not found.'.format(name)
+            #if founnd
+            else:
+                item = items[0]
+                cost_per_unit = float(request.POST.get('cost_p_u'))
+                stock = int(request.POST.get('stock'))
+                date_exp=datetime.datetime.strptime(request.POST.get('date_exp'), "%Y-%m-%d")
+                date_enter= timezone.now()
+                item.cost_per_unit = cost_per_unit
+                item.stock += stock
+                item.date_exp = date_exp
+                item.date_enter= date_enter
+                item.save()
+
+                if context['error'] == '':
+                    context['error'] = '"{}" is updated in "{}" inventory .' \
+                                        .format(item.name.name,item.store)
+                    context['item'] = item
+    return render(request, 'littlebytes/inventory_update.html', context)
+
 
 @login_required
 def sales(request):
@@ -46,7 +91,7 @@ def sales(request):
 
     #sort transaction by store, date
     order_by = request.GET.get('sort', 'store')
-    map_to_field = {'store': 'store', 'date': 'date'}
+    map_to_field = {'store': 'store', 'date': '-date'}
     order_by = map_to_field.get(order_by, 'store')
     query_results = query_results.order_by(order_by)
 
@@ -72,16 +117,20 @@ def add_sale(request):
         context['stores'] = (Store.objects.filter(id=authorized_store_id) #different views for stores/CEO
                              if authorized_store_id else Store.objects.all())
         context['boxes'] = Box.objects.all()
-    else: # if 'add transaction' is clicked
+    else: # if 'Add Transaction' button is clicked
         store_id = request.POST.get('store', None)
-        if authorized_store_id and (authorized_store_id!=store_id): #check if user is permitted to add to this store
+        #if user does not permission to add to this store
+        if authorized_store_id and (authorized_store_id!=store_id):
             context['error'] = 'Store ID {} is invalid'.format(store_id)
+        #if user have permission to add
         else:
             barcode = request.POST.get('barcode', None)
             box = Box.objects.filter(barcode=barcode)
-            if len(box)!=1: #if cannot find the barcode
+            # if cannot find the barcode
+            if len(box)!=1:
                 context['error'] = 'Barcode {} is invalid'.format(barcode)
-            else: #check enough ingredients needed
+            else:
+                #check ingredients needed
                 inventory_index = 'contents__ingredients__inventory'
                 inventory_store = 'contents__ingredients__inventory__store'
                 ingredient = 'boxcontents__sandwich__ingredients__sandwichrecipe__ingredient'
@@ -89,12 +138,14 @@ def add_sale(request):
                 ingredients = box.values(index=F(inventory_index),name=F(ingredient),store=F(inventory_store)) \
                                  .annotate(amount=Sum(F(ingredient_amount)))
                 sandwich_count = box.aggregate(sandwich_count=Count('contents'))['sandwich_count']
+                #define a new transaction
                 transaction = Transaction(box=box[0],
                                           store=Store.objects.get(id=store_id),
                                           transaction_type=request.POST.get('type', 'w'),
                                           gross=sandwich_count*3.25)
                 updatedItems = []
-                for i in ingredients: #check if enough ingredients
+                # check if enough ingredients
+                for i in ingredients:
                     if i['store'] and i['store']!=transaction.store.id:
                         continue
                     if i['index']==None: #case no ingredient of such name in the inventory of the store
@@ -186,7 +237,6 @@ def reports(request):
 
     return render(request, 'littlebytes/reports.html', context)
 
-@permission_required('entity.can_add_user', login_url='/')
 def register(request):
     if request.method == 'POST':
 

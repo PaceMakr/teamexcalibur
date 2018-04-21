@@ -44,7 +44,7 @@
         <span class="login100-form-title p-b-10">
             Update Inventory
         </span>
-                        <div class="wrap-input100 validate-input m-t-25 m-b-35">
+                        <div class="validate-input m-t-25 m-b-35">
                             <div class="input-label">Ingredient Name:</div>
                             <select class="full_select" name="ingredient" required>
                                 {% for ingredient in ingredients %}
@@ -52,9 +52,9 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="wrap-input100 validate-input m-b-35">
+                        <div class="validate-input m-b-35">
                             <div class="input-label">Store:</div>
-                            <select name="store" required>
+                            <select class="full_select" name="store" required>
                                 {% for store in stores %}
                                     <option value="{{store.id}}">{{store}}</option>
                                 {% endfor %}

@@ -3,7 +3,7 @@
 <head>
     <title>LittleBytes Reports</title>
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--===============================================================================================-->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -16,7 +16,7 @@
     <div class="btn-navigate-group">
         <button>
             <a href="{% url 'logout' %}" class="navigation-link-btn" >
-                LOGOUT
+                Logout
             </a>
         </button>
         <button>
@@ -30,22 +30,22 @@
             </a>
         </button>
     </div>
-    <h1>LittleBytes Reports
-    </h1>
+    <h1 class="login100-form-title">LittleBytes Reports</h1>
     <h2>
         <div class="container-icons">
-            {% now "H:i:s m/d/y" %}
+            Date Time:
+            {% now "m/d/y H:i:s" %}
             <button id="btnZoom" tabindex="0" class="fa fa-print"></button>
         </div>
     </h2>
+    <br/>
+    <br/>
     {% if reports %}
-        <h2 class="w3-container">
-            Reporting Period: {{start_date|date:"M-d-Y"}} to {{end_date|date:"M-d-Y"}}
-        </h2>
         {% for report in reports %}
             <hr />
-            <h2 style="color:steelblue;">Store {{report.store}}</h2>
-
+            <h2 style="color:#00b3b3; font-size:23px;">Store {{report.store}}
+                - from {{start_date|date:"M d, Y"}} to {{end_date|date:"M d, Y"}}</h2>
+            <hr />
             <h3>Sale Summary</h3>
             <div class="tbl-header">
                 <table cellpadding="0" cellspacing="0" border="0">
@@ -66,7 +66,7 @@
                     <tr>
                         <td>{{ report.total_transaction }}</td>
                         <td>{{ report.total_count }}</td>
-                         <td>{{ report.total_cost }}</td>
+                        <td>{{ report.total_cost }}</td>
                         <td>{{ report.total_gross }}</td>
                         <td>{{ report.store.tax }}</td>
                     </tr>
@@ -133,14 +133,15 @@
 
         {% endfor %}
     {% else %}
+
         <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align w3-hover-light-grey">
             <h2>
                 &gt Daily Reports
             </h2>
         </button>
-        <div id="Demo1" class="w3-show w3-container">
+        <div id="Demo1" class="w3-hide w3-container">
             {% for item in daily %}
-                <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="/reports/?start={{item|date:'Y-m-d'}}">
+                <a class="w3-button w3-block w3-left-align w3-hover-light-grey  " href="/reports/?start={{item|date:'Y-m-d'}}">
                     {{item|date:"M-d-Y"}}
                 </a>
             {% endfor %}
@@ -150,7 +151,7 @@
                 &gt Weekly Reports
             </h2>
         </button>
-        <div id="Demo2" class="w3-show w3-container">
+        <div id="Demo2" class="w3-hide w3-container">
             {% for item in weekly %}
                 <a class="w3-button w3-block w3-left-align w3-hover-light-grey" href="/reports/?start={{item.0|date:'Y-m-d'}}&end={{item.1|date:'Y-m-d'}}">
                     {{ item.0|date:"M-d-Y" }} &rarr; {{ item.1|date:"M-d-Y" }}
