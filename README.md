@@ -21,7 +21,7 @@ Python==3.6.3
 - install python3.6
 **optional: use a virtualenv(https://virtualenv.pypa.io/en/stable/installation/) for the project**
 - clone this repository using git:
-      - create a folder where you want to save this project
+	- create a folder where you want to save this project
 	- cd into the folder from the command line
 	- clone -b prototype https://github.com/PaceMakr/teamexcalibur
 
