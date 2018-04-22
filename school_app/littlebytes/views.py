@@ -16,6 +16,9 @@ def get_store_id_from_username(username):
             return '{:02d}'.format(int(store_id))
     return None
 
+def testing(request):
+    return render(request, 'littlebytes/testing.html')
+
 @login_required
 def inventory(request):
     store_id = get_store_id_from_username(request.user.username)
@@ -209,15 +212,18 @@ def reports(request):
                                                     output_field=DecimalField(decimal_places=2)))
             ingredients = [(item['name'],units[item['name']],item['amount'])
                            for item in ingredients]
+            boxes_count = dict(sales.values_list('box') \
+                               .annotate(count=Count('box')))
+
             box_stats = sales.values('box') \
                              .annotate(avg_gross=Avg('gross'),
                                        cost=Sum(F(cost_per_unit)*F(ingredient_amount),
                                                 output_field=DecimalField(decimal_places=2)))
-            boxes_count = dict(sales.values_list('box') \
-                                    .annotate(count=Count('box')))
             total_cost = 0
             for b in box_stats:
                 b['count'] = boxes_count[b['box']]
+                #fixed bugs for unit cost, must be divided by unit count
+                b['cost'] = b['cost']/b['count']
                 total_cost += b['count']*b['cost']
             total_gross = sales.aggregate(total_gross=Sum('gross'))
             if not total_gross['total_gross']:

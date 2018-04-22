@@ -1,44 +1,27 @@
-{% load staticfiles %}
-<html>
-<head>
-    <title>Sales Records</title>
-    <!--===============================================================================================-->
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <!--===============================================================================================-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--===============================================================================================-->
-</head>
-<body>
-<section>
-    <!--for demo wrap-->
-    {% if user.is_authenticated %}
-        <div class="btn-navigate-group">
-            <button>
-                <a href="{% url 'logout' %}" class="navigation-link-btn" >
-                    Logout
-                </a>
-            </button>
-            <button>
-                <a href="{% url 'reports' %}" class="navigation-link-btn">
-                    Reports
-                </a>
-            </button>
-            <button>
-                <a href="{% url 'inventory' %}" class="navigation-link-btn">
-                    Inventory
-                </a>
-            </button>
-        </div>
-    {% else %}
-        <a href="{% url 'login' %}" class="navigation-link-btn">Login</a>
-    {% endif %}
+{% extends 'littlebytes/base_main.html' %}
+{% block title %}
+    <title>Sale Records</title>
+{% endblock %}
+{% block nvgbtn %}
+    <div class="btn-navigate-group">
+        <button>
+            <a href="{% url 'logout' %}" class="navigation-link-btn" >
+                Logout
+            </a>
+        </button>
+        <button>
+            <a href="{% url 'reports' %}" class="navigation-link-btn">
+                Reports
+            </a>
+        </button>
+        <button>
+            <a href="{% url 'inventory' %}" class="navigation-link-btn">
+                Inventory
+            </a>
+        </button>
+    </div>
+{% endblock %}
+{% block nvgbar %}
     <h1 class="login100-form-title">LittleBytes Sale Records</h1>
     <h2>
         <div class="w3-dropdown-hover w3-white">
@@ -49,7 +32,7 @@
                     Store
                 </a>
                 <a class="w3-bar-item w3-button w3-hover-light-grey" href="?sort=date">
-                    Date Added
+                    Most Recent Transaction
                 </a>
             </div>
         </div>
@@ -60,54 +43,26 @@
                     href="/sales/add/"></button>
         </div>
     </h2>
-    <div class="tbl-header">
-        <table cellpadding="0" cellspacing="0" border="0">
-            <thead>
-            <tr>
-                <th>Transaction Number</th>
-                <th>Store</th>
-                <th>Type</th>
-                <th>Cost</th>
-                <th>Gross Price</th>
-                <th>Tax Rate</th>
-                <th>Date Added</th>
-            </tr>
-            </thead>
-        </table>
-    </div>
-    <div class="tbl-content">
-        <table cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-            {% for item in query_results %}
-                <tr>
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.store }}</td>
-                    <td>{% ifequal item.transaction_type "w" %}Walk-in{% else %}Catering{% endifequal %}</td>
-                    <td>{{ item.cost }}</td>
-                    <td>{{ item.gross }}</td>
-                    <td>{{ item.store.tax }}</td>
-                    <td>{{ item.date }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</section>
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-        </div>
-    </div>
-</div>
-<!-- Script -->
-<script>
-    //function for scroll bar
-    $(window).on("load resize ", function() {
-        var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
-        $('.tbl-header').css({'padding-right':scrollWidth});
-    }).resize();
-
-</script>
-</body>
-</html>
+{% endblock %}
+{% block tbheader %}
+    <th>Transaction Number</th>
+    <th>Store</th>
+    <th>Type</th>
+    <th>Cost</th>
+    <th>Gross Price</th>
+    <th>Tax Rate</th>
+    <th>Date Added</th>
+{% endblock %}
+{% block tbbody %}
+    {% for item in query_results %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.store }}</td>
+            <td>{% ifequal item.transaction_type "w" %}Walk-in{% else %}Catering{% endifequal %}</td>
+            <td>{{ item.cost }}</td>
+            <td>{{ item.gross }}</td>
+            <td>{{ item.store.tax }}</td>
+            <td>{{ item.date }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

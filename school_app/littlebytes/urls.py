@@ -3,6 +3,7 @@ from . import views
 
 
 urlpatterns = [
+    url(r'^testing/$', views.testing, name='testing'),
     url(r'^inventory/$', views.inventory, name='inventory'),
     url(r'^inventory/update/$', views.inventory_update, name='inventory_update'),
     url(r'^sales/$', views.sales, name='sales'),

@@ -1,68 +1,66 @@
-{% load staticfiles %}
-<head>
+{% extends 'littlebytes/base_add.html' %}
+{% block title %}
     <title>Create New Account</title>
-    <!--===============================================================================================-->
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'css/util.css' %}">
-    <!--===============================================================================================-->
-</head>
-<body onload="reassign();">
-{% if form.errors %}
-    <div class="login-error-notification">Please check the requirements for username, password and matching confirmation.</div>
-{% endif %}
-<form method="post">
-    {% csrf_token %}
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100 p-t-85 p-b-80">
-                <form class="login100-form">
-        <span class="login100-form-title p-b-10">
-            LittleBytes
-            <br/>New Account
-        </span>
-                    <div class="login100-form-credits">@teamexcalibur
-                    </div>
-                    <div class="wrap-input100 validate-input m-t-25 m-b-35">
-                        <div class="input-label">Username</div>
-                        {{ form.username }}
-                        <span class="focus-input100" data-placeholder=""></span>
-                        <a class="login-register-help-txt">{{ form.username.help_text }}</a>
-                    </div>
-                    <div class="wrap-input100 validate-input m-b-35">
-                        <div class="input-label">Email</div>
-                        {{ form.email }}
-                        <span class="focus-input100"></span>
-                        <a class="login-register-help-txt">{{ form.email.help_text }}</a>
-                    </div>
-                    <div class="wrap-input100 validate-input m-b-35">
-                        <div class="input-label">Password</div>
-                        {{ form.password1 }}
-                        <span class="focus-input100"></span>
-                        <a class="login-register-help-txt">
-                            </br>Must contain at least 8 characters. Cannot be entirely numeric.
-                            </br>Cannot be a commonly used password.
-                        </a>
-                    </div>
-                    <div class="wrap-input100 validate-input m-b-50">
-                        <div class="input-label">Password confirmation</div>
-                        {{ form.password2 }}
-                        <span class="focus-input100" data-placeholder=""></span>
-                        <a class="login-register-help-txt">{{ form.password2.help_text }}</a>
-                    </div>
-                    <div class="container-login100-form-btn login100-form-btn">
-                        <input class="navigation-link-btn" type="submit" value="Register"/>
-                    </div>
-                </form>
-            </div>
-        </div>
+{% endblock %}
+{% block errormsg %}
+    <div class="login-error-notification">
+        Please check the requirements for username, password and matching confirmation.
     </div>
-</form>
-<script type="text/javascript">
-    function reassign() {
-        document.getElementById("id_username").className = "input100";
-        document.getElementById("id_password1").className = "input100";
-        document.getElementById("id_password2").className = "input100";
-        document.getElementById("id_email").className = "input100";
-    }
-</script>
-</body>
+{% endblock %}
+{% block formPost %}
+    <form method="post">
+{% endblock %}
+{% block header %}
+    <span class="login100-form-title p-b-10">
+            LittleBytes<br/>New Store Account
+    </span>
+{% endblock %}
+{% block body %}
+    <div class="wrap-input100 validate-input m-t-25 m-b-35">
+        <div class="input-label">Username</div>
+        {{ form.username }}
+        <span class="focus-input100" data-placeholder=""></span>
+        <a class="login-register-help-txt">{{ form.username.help_text }}</a>
+    </div>
+    <div class="wrap-input100 validate-input m-b-35">
+        <div class="input-label">Store ID</div>
+        <input class="w3-input w3-border-0" type="number">
+        <span class="focus-input100" data-placeholder=""></span>
+        <a class="login-register-help-txt">
+            Enter a new store number.
+        </a>
+    </div>
+    <div class="wrap-input100 validate-input m-b-35">
+        <div class="input-label">Store Location</div>
+        <input class="w3-input w3-border-0" type="text">
+        <span class="focus-input100" data-placeholder=""></span>
+        <a class="login-register-help-txt">
+            Please enter a valid location.
+        </a>
+    </div>
+    <div class="wrap-input100 validate-input m-b-35">
+        <div class="input-label">Email</div>
+        {{ form.email }}
+        <span class="focus-input100"></span>
+        <a class="login-register-help-txt">{{ form.email.help_text }}</a>
+    </div>
+    <div class="wrap-input100 validate-input m-b-35">
+        <div class="input-label">Password</div>
+        {{ form.password1 }}
+        <span class="focus-input100"></span>
+        <a class="login-register-help-txt">
+            Must contain at least 8 characters. Cannot be entirely numeric.
+            Cannot be a commonly used password.
+        </a>
+    </div>
+    <div class="wrap-input100 validate-input m-b-50">
+        <div class="input-label">Password confirmation</div>
+        {{ form.password2 }}
+        <span class="focus-input100" data-placeholder=""></span>
+        <a class="login-register-help-txt">{{ form.password2.help_text }}</a>
+    </div>
+    <div class="container-login100-form-btn login100-form-btn">
+        <input class="navigation-link-btn" type="submit" value="Register"/>
+    </div>
+{% endblock %}
+

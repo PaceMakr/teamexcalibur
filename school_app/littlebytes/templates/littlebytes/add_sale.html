@@ -1,27 +1,16 @@
-{% load staticfiles %}
-<html>
-<head>
-    <title>LittleBytes Add Sales</title>
-    <!--===============================================================================================-->
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <!--===============================================================================================-->
-</head>
-<body>
-<section>
-    {% if user.is_authenticated %}
-    {% else %}
-        <a href="{% url 'login' %}" class="navigation-link-btn">Login</a>
-    {% endif %}
+{% extends 'littlebytes/base_main.html' %}
+{% block title %}
+    <title>Add Transaction</title>
+{% endblock %}
+{% block nvgbar %}
     <h1>Add Transaction</h1>
+{% endblock %}
+{% block report %}
     {% ifnotequal error "" %}
         <div class="tbl-header">
             <table cellpadding="0" cellspacing="0" border="0">
                 <thead>
-                <tr>
-                    <th>{{error}}</th>
-                </tr>
+                <tr><th>{{error}}</th></tr>
                 {% ifnotequal transaction.id "" %}
                     <tr>
                         <th>You can
@@ -89,6 +78,4 @@
             </form>
         </div>
     {% endifnotequal %}
-</section>
-</body>
-</html>
+{% endblock %}
