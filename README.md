@@ -21,7 +21,7 @@ Django==2.0.2 <br/>
 - clone this repository using git:
 	- create a folder where you want to save this project
 	- cd into the folder from the command line
-	- clone -b prototype https://github.com/PaceMakr/teamexcalibur
+	- clone prototype https://github.com/PaceMakr/teamexcalibur
 
 ## Release History
 
