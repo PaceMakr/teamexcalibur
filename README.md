@@ -23,7 +23,7 @@ Django==2.0.2 <br/>
 	- ` clone https://github.com/PaceMakr/teamexcalibur `
 - install dependencies(django and django-extensions)
 	- cd into repository folder
-	- run `pip3 install -r requirement.txt
+	- run `pip3 install -r requirement.txt`
 - start the server by running `python3 manage.py runserver`
 
 ## Release History
