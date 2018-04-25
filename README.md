@@ -12,7 +12,7 @@ This is our solution: a django based web application
 
 ## Requirements 
 
-Django==2.0.2
+Django==2.0.2 <br/>
 Python==3.6.3
 
 ## Installation
@@ -30,11 +30,11 @@ Python==3.6.3
 ## Meta
 
 Team members:
-Adelin Rivas
-Ahmad Cary
-Derling Batista
-Hanh Hoang
-Scott Alvarez
+Adelin Rivas <br/>
+Ahmad Cary <br/>
+Derling Batista <br/>
+Hanh Hoang <br/>
+Scott Alvarez <br/>
 
 Distributed under the Excalibur license. See LICENSE for more information.
 
