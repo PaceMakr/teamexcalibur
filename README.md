@@ -19,7 +19,7 @@ This is our solution: a django based web application
 	- `git clone https://github.com/PaceMakr/teamexcalibur `
 - install dependencies(django and django-extensions)
 	- cd into repository folder
-	- run `pip3 install -r requirement.txt`
+	- run `pip3 install -r requirements.txt`
 - start the server by running `python3 manage.py runserver`
 
 ## Release History
