@@ -15,13 +15,16 @@ This is our solution: a django based web application
 Django==2.0.2 <br/>
 
 ## Installation
-- install python3.6
-- install django 2.0.2
 **optional: use a virtualenv(https://virtualenv.pypa.io/en/stable/installation/) for the project**
+- install [python3.6](https://www.python.org/downloads/)
 - clone this repository using git:
 	- create a folder where you want to save this project
 	- cd into the folder from the command line
 	- ` clone https://github.com/PaceMakr/teamexcalibur `
+- install dependencies(django and django-extensions)
+	- cd into repository folder
+	- run `pip3 install -r requirement.txt
+- start the server by running `python3 manage.py runserver`
 
 ## Release History
 
