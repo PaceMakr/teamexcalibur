@@ -32,7 +32,7 @@ This is our solution: a django based web application
 
 ## Meta
 
-Team members:
+Team members:<br/>
 Adelin Rivas <br/>
 Ahmad Cary <br/>
 Derling Batista <br/>
