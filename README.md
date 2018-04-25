@@ -13,12 +13,10 @@ This is our solution: a django based web application
 ## Requirements 
 
 Django==2.0.2 <br/>
-Python==3.6.3
 
 ## Installation
-
-- install django 2.0.2
 - install python3.6
+- install django 2.0.2
 **optional: use a virtualenv(https://virtualenv.pypa.io/en/stable/installation/) for the project**
 - clone this repository using git:
 	- create a folder where you want to save this project
