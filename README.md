@@ -10,6 +10,11 @@ LittleBites chain owner wants system that allows him to maintain track of each s
 The development team has reached the conclusion that we should use open source components to implement the store software. This allows the store owner to bang for your buck, at the same time these technologies do not compromise the quality of the software. It must be said that many Fortune 500 Companies uses this technology to design reliable systems.
 This is our solution: a django based web application
 
+## Artifacts
+![alt text](https://raw.githubusercontent.com/PaceMakr/teamexcalibur/master/artifacts/lb_uml.png "UML")
+![alt text](https://raw.githubusercontent.com/PaceMakr/teamexcalibur/master/artifacts/lb_django_uml.png "Django UML")
+
+
 ## Installation
 **optional: use a [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) for the project**
 - install [python3.6](https://www.python.org/downloads/)
