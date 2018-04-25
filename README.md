@@ -11,7 +11,7 @@ The development team has reached the conclusion that we should use open source c
 This is our solution: a django based web application
 
 ## Artifacts
-![alt text](https://raw.githubusercontent.com/PaceMakr/teamexcalibur/master/meetings.txt)
+[View our notes](https://raw.githubusercontent.com/PaceMakr/teamexcalibur/master/meetings.txt)
 ![alt text](https://raw.githubusercontent.com/PaceMakr/teamexcalibur/master/artifacts/lb_uml.png "UML")
 ![alt text](https://raw.githubusercontent.com/PaceMakr/teamexcalibur/master/artifacts/lb_django_uml.png "Django UML")
 
