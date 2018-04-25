@@ -17,7 +17,7 @@ This is our solution: a django based web application
 	- create a folder where you want to save this project
 	- cd into the folder from the command line
 	- `git clone https://github.com/PaceMakr/teamexcalibur `
-- install dependencies(django and django-extensions)
+- install dependencies:
 	- cd into repository folder
 	- run `pip3 install -r requirements.txt`
 - start the server by running `python3 manage.py runserver`
