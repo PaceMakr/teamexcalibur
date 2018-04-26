@@ -16,8 +16,8 @@ def get_store_id_from_username(username):
             return '{:02d}'.format(int(store_id))
     return None
 
-def testing(request):
-    return render(request, 'littlebytes/testing.html')
+def help(request):
+    return render(request, 'littlebytes/help.html')
 
 @login_required
 def inventory(request):
@@ -234,7 +234,7 @@ def reports(request):
                      'total_gross': total_gross['total_gross'],
                      'total_cost': total_cost,
                      'total_count':int(float(total_gross['total_gross'])/3.25),
-                     'total_transaction': len(box_stats),
+                     'total_transaction': len(sales),
                      }
             storeReports.append(store)
         context['reports'] = storeReports
