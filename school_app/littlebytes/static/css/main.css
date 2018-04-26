@@ -201,7 +201,7 @@ h3{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: top;
+  /*align-items: top;*/
   padding: 15px;
   background: #fff;  
 }
@@ -216,7 +216,7 @@ h3{
 
 .login-error-notification {
   color: red;
-  font-size: 20px;
+  font-size: 25px;
   text-align: center;
   padding-top: 10px;
 }
@@ -391,7 +391,8 @@ h3{
 }
 
 #btnZoom{
-  padding-left:20px;
+  margin-left:20px;
+  padding-left: 10px;
   transform: scale(1.8);
 }
 
@@ -440,7 +441,7 @@ h3{
     padding: 10px 10px; /* Some padding */
     cursor: pointer; /* Pointer/hand icon */
     float: right; /* Float the buttons side by side */
-    font-family: Poppins-Medium
+    font-family: Poppins-Medium;
     font-size:16px;
     border-radius: 25px;
     width: 10%

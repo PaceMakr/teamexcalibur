@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Ingredient, Inventory, Transaction, Box, Store
-from django.template import loader
+# from django.template import loader
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import redirect
@@ -61,14 +61,19 @@ def inventory_update(request):
             #find in inventory item with name and store chosen
             name = request.POST.get('ingredient', None)
             items = Inventory.objects.filter(name=name, store=store_id)
+            stock = int(request.POST.get('stock'))
+            cost_per_unit = float(request.POST.get('cost_p_u'))
             #if cannot find such item
             if len(items)!=1:
                 context['error'] = 'Integrident {} is not found.'.format(name)
-            #if founnd
+            #if stock or cost_per_unit is negative
+            if stock < 0 or cost_per_unit <=0.01:
+                context['error'] = 'Cannot have a negative value for price or quantity.'
+            #if found
             else:
                 item = items[0]
-                cost_per_unit = float(request.POST.get('cost_p_u'))
-                stock = int(request.POST.get('stock'))
+                # cost_per_unit = float(request.POST.get('cost_p_u'))
+                # stock = int(request.POST.get('stock'))
                 date_exp=datetime.datetime.strptime(request.POST.get('date_exp'), "%Y-%m-%d")
                 date_enter= timezone.now()
                 item.cost_per_unit = cost_per_unit
@@ -165,7 +170,7 @@ def add_sale(request):
                     for item in updatedItems: #add the transaction, update innventory with new amount left
                         item.save()
                     transaction.save()
-                    context['error'] = 'Transaction "{}" added.' \
+                    context['error'] = 'Transaction "{}" successfully added.' \
                                        .format(transaction.id)
                     context['transaction'] = transaction
     return render(request, 'littlebytes/add_sale.html', context)
@@ -223,7 +228,7 @@ def reports(request):
             for b in box_stats:
                 b['count'] = boxes_count[b['box']]
                 #fixed bugs for unit cost, must be divided by unit count
-                b['cost'] = b['cost']/b['count']
+                b['cost'] = round(b['cost']/b['count'],2)
                 total_cost += b['count']*b['cost']
             total_gross = sales.aggregate(total_gross=Sum('gross'))
             if not total_gross['total_gross']:
@@ -232,7 +237,7 @@ def reports(request):
                      'ingredients': ingredients,
                      'box_stats': box_stats,
                      'total_gross': total_gross['total_gross'],
-                     'total_cost': total_cost,
+                     'total_cost': round(total_cost,2),
                      'total_count':int(float(total_gross['total_gross'])/3.25),
                      'total_transaction': len(sales),
                      }

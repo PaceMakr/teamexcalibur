@@ -10,14 +10,14 @@
         <div class="tbl-header">
             <table cellpadding="0" cellspacing="0" border="0">
                 <thead>
-                <tr><th>{{error}}</th></tr>
+                <tr><th class="login-error-notification">{{error}}</th></tr>
+{#                get this one to show only if successfully added#}
                 {% ifnotequal transaction.id "" %}
                     <tr>
                         <th>You can
                             <a href="{% url 'add_sale' %}" class="login100-form-credits">Add another transaction</a>
-                            or check your
+                            or go back to
                             <a href="{% url 'sales' %}" class="login100-form-credits">Sale Records</a>
-                            to see changes.
                         </th>
                     </tr>
                     </thead>

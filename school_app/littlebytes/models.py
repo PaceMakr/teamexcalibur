@@ -1,6 +1,8 @@
 import uuid
+# from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
+
 
 # Create your models here.
 
@@ -64,6 +66,7 @@ class Store(models.Model):
 class Inventory(models.Model):
     name = models.ForeignKey('Ingredient', on_delete=models.PROTECT)
     store = models.ForeignKey('Store', on_delete=models.PROTECT)
+    #need a validator for postive values for both stock and cost_per_unit
     cost_per_unit = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()
     date_exp = models.DateTimeField()

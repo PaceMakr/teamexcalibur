@@ -18,9 +18,7 @@
     <div class="tbl-header">
         <table cellpadding="0" cellspacing="0" border="0">
             <thead>
-            <tr>
-                <th>{{error}}</th>
-            </tr>
+            <tr><th class="login-error-notification">{{error}}</th></tr>
             {% ifnotequal item.name "" %}
                 <tr>
                     <th>You can
@@ -62,11 +60,11 @@
                         </div>
                         <div class="wrap-input100 validate-input m-b-35">
                             <div class="input-label">Cost per unit (dollars):</div>
-                            <input name="cost_p_u" class="w3-input" type="number">
+                            <input name="cost_p_u" class="w3-input" type="number" min="0.01">
                         </div>
                         <div class="wrap-input100 validate-input m-b-35">
                             <div class="input-label">Quantity:</div>
-                            <input name="stock" class="w3-input" type="number">
+                            <input name="stock" class="w3-input" type="number" min="0">
                         </div>
                         <div class="wrap-input100 validate-input m-b-50">
                             <div class="input-label">Date expire:</div>
